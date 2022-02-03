@@ -77,80 +77,14 @@ Compilation instructions: run "make" to produce two executables:
 USAGE
 *****
 
-The program reads an input video in raw format and produces an output raw
-video with the video stabilization. The input videos need to be converted
-to raw format. This can be done using the 'avconv' or 'ffmpeg' programs as:
+The program reads an sequence of image files and produces an output sequence
+with the motion stabilized. In only works with images of 1 or 3 channels.
 
-  1. Converting an mpeg 4 video file to raw data:
-
-    'avconv -i video.mp4 -f rawvideo -pix_fmt rgb24 -y raw_video.raw'
-  
-  2. Converting a raw video file to mpeg 4:
-    
-    'avconv -f rawvideo -pix_fmt rgb24 -video_size 640x360 -framerate
-          30 -i output_video.raw -pix_fmt yuv420p output_video.mp4'
-          
-The program works with RGB images of 3 bytes (rgb24). It is necessary to
-know the dimensions of the original video and its framerate. The 
-accompanying script 'cmdline_execute.sh' facilitates the task of converting
-the videos to/from raw data and calling the midway program.
-
-Usage instructions of the estadeo program:
-
-  Usage: estadeo raw_input_video width height nframes [OPTIONS]
-
-  Video stabilization program:
-  'raw_input_video' is a video file in raw format (rgb24).
-  'width' is the width of the images of the video in pixels.
-  'height' is the height of the images of the video in pixels.
-  'nframes' is the number of frames in the video.
-
-  OPTIONS:
-  --------
-   -o name  output video name to write the computed raw video
-              default value 'output_video.raw'
-   -m N     motion estimation method
-              0-direct method; 1-feature based method
-              default value 1
-   -t N     transformation type to be computed:
-              2-traslation; 3-Euclidean transform;
-              4-similarity; 6-affinity; 8-homography
-              default value 8
-   -s N     motion smoothing strategy:
-              0-pure composition;
-              1-compositional smoothing;
-              2-compositional local smoothing; 
-              3-local matrix-based smoothing;
-              4-local point-based smoothing
-              default value 3
-   -r N     smoothing radius
-              default value 30
-   -b N     type of boundary condition: 
-              0-constant; 1-neumann; 2-dirichlet
-              default value 2
-   -p N     video postprocessing 
-              0-no postprocessing; 1-crop&zoom
-              default value 0
-   -w name  write transformations to file
-   -l name  load transformations from file
-   -v       switch on verbose mode 
-
+Usage instructions obtained by executing the programe with no inputs:
+```
+bin/estadeo
+```
    
-Usage examples:
-
-  1.Directly using the estadeo program:
-    
-  > avconv -i data/walk.mp4 -f rawvideo -pix_fmt rgb24 -y data/video.raw 
-  > bin/estadeo data/video.raw 350 622 203 -v -o data/outvideo.raw -m 1 -s 3 \
-           -r 50 -w data/transform.mat
-  > avconv -f rawvideo -pix_fmt rgb24 -video_size 350x622 -framerate 30/1 -i \
-           data/outvideo.raw -pix_fmt yuv420p -y data/stabilized.mp4
-  
-  2.Using the script:
-    
-   > bin/cmdline_execute.sh data/walk.mp4 data/outvideo.mp4 1 50 transforms.mat
-   
-
 *************
 LIST OF FILES
 *************

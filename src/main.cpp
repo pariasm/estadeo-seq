@@ -35,24 +35,15 @@
  */
 void print_help(char *name)
 {
-  printf("\n  Usage: %s raw_input_video width height nframes [OPTIONS] \n\n",
-          name);
+  printf("\n  Usage: %s input_path first-frame last-frame frame-step\n", name);
+  printf("              output-width output-height [OPTIONS] \n\n");
   printf("  Video stabilization program:\n");
-  printf("  'raw_input_video' is a video file in raw format (rgb24).\n");
-  printf("  'width' is the width of the images in pixels.\n");
-  printf("  'height' is the height of the images in pixels.\n");
-  printf("  'nframes' is the number of frames in the video.\n");
-  printf("  -----------------------------------------------\n");
-  printf("  Converting to raw data:\n");
-  printf("  'avconv -i video.mp4 -f rawvideo -pix_fmt rgb24 -y "
-         "raw_video.raw'\n");
-  printf("  to convert an mp4 video to raw format.\n");
-  printf("  'avconv -f rawvideo -pix_fmt rgb24 -video_size 640x360 "
-         "-framerate\n");
-  printf("  30 -i output_video.raw -pix_fmt yuv420p output_video.mp4'\n");
-  printf("  to convert a raw video to mp4 format.\n");
-  printf("  -----------------------------------------------\n");
-  printf("  More information in http://www.ipol.im \n\n");
+  printf("    input_path     path to input image sequence (printf format).\n");
+  printf("    first-frame    number of first frame.\n");
+  printf("    latst-frame    number of last frame.\n");
+  printf("    frame-step     step in frame numbering.\n");
+  printf("    output-width   width  of output images (-1 to keep input width).\n");
+  printf("    output-height  height of output images (-1 to keep input height).\n\n");
   printf("  OPTIONS:\n"); 
   printf("  --------\n");
   printf("   -o name  output video name to write the computed raw video\n");
@@ -84,7 +75,19 @@ void print_help(char *name)
   printf("   -w name  write transformations to file\n");
   printf("   -l name  load transformations from file\n");
   printf("   -f name  write stabilizing transformations to file\n");
-  printf("   -v       switch on verbose mode \n\n\n");
+  printf("   -v       switch on verbose mode \n\n");
+  printf("  EXAMPLE:\n"); 
+  printf("  --------\n");
+  printf("  Stabilize input sequence\n");
+  printf("  path/to/input/0003.tif\n");
+  printf("  path/to/input/0006.tif\n");
+  printf("  ...\n");
+  printf("  path/to/input/0051.tif\n");
+  printf("  keeping same frame size, using similarity transformations and no\n");
+  printf("  post-processing:\n");
+  printf("  %s path/to/input/%%04.tif 6 51 3 -1 -1 -t 4 -p 0 -o path/to/out/%%04d.png\n", name);
+  printf("  -----------------------------------------------\n");
+  printf("  More information in http://www.ipol.im \n\n");
 }
 
 /**
