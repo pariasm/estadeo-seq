@@ -46,7 +46,7 @@ bicubic_interpolation(
   ddy = neumann_bc ((int) vv + 2 * sy, ny, out);
 
   if (out && border_out) 
-    return 0;
+    return -10;
   else
     {
       //obtain the interpolation points of the image
